@@ -1,0 +1,32 @@
+version: '3'
+services:
+  postgresql:
+    image: postgres
+    container_name: postgres-local
+    ports:
+      - "5432:5432"
+    volumes:
+      - "/var/lib/postgres/data:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+
+  pgbouncer:
+    image: edoburu/pgbouncer
+    container_name: pgbouncer-local
+    depends_on:
+      - postgresql
+    ports:
+      - "5433:5432"
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@192.168.56.68:5432/postgres
+      POOL_MODE: transaction
+      MAX_CLIENT_CONN: 400
+      MIN_POOL_SIZE: 20
+      DEFAULT_POOL_SIZE: 20
+      RESERVE_POOL_SIZE: 10
+      MAX_DB_CONNECTIONS: 50
+      MAX_USER_CONNECTIONS: 50
+      
