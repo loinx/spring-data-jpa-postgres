@@ -24,4 +24,5 @@ public class Application {
 	public MeterBinder processThreadMetrics() {
 		return new ProcessThreadMetrics();
 	}
+
 }
